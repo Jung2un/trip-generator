@@ -5,7 +5,7 @@ import MessageList from "./MessageList";
 import { useEffect, useState, useRef } from "react";
 
 type Message = {
-    role: "user" | "assistant";
+    role: "user" | "assistant" | "system";
     content: string;
 };
 
@@ -26,14 +26,9 @@ export default function ChatBox() {
         });
 
         const data = await res.json();
+        const result = data.result || "응답을 생성하지 못했습니다.";
 
-        console.log(data);
-
-        const reply = Array.isArray(data) && data[0]?.generated_text
-            ? data[0].generated_text
-            : "응답을 생성하지 못했습니다.";
-
-        setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+        setMessages((prev) => [...prev, { role: "assistant", content: result }]);
     };
 
     useEffect(() => {
