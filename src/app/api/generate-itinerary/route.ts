@@ -4,27 +4,47 @@ export async function POST(req: NextRequest) {
     try {
         const { userInput } = await req.json();
 
-        const response = await fetch("https://api-inference.huggingface.co/models/beomi/llama-2-koen-13b", {
-            method: 'POST',
+        const body = {
+            model: "qwen-qwq-32b",
+            messages: [
+                {
+                    role: "system",
+                    content: "넌 반드시 한국어로만 대답하는 여행 안내 AI야. reasoning 하지 말고 바로 결과만 한국어로 출력해.",
+                },
+                {
+                    role: "user",
+                    content: userInput
+                }
+            ]
+        };
+
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
             headers: {
-                Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
-                'Content-Type': 'application/json',
+                Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ inputs: userInput }),
+            body: JSON.stringify(body),
         });
 
         const data = await response.json();
 
-        console.log("" +
-            "HuggingFace 응답 데이터:", data);
+        if (!response.ok) {
+            console.error("Groq API 응답 실패:", data);
+            return new Response(JSON.stringify({ error: "Groq API 실패" }), { status: 500 });
+        }
 
-        const reply = Array.isArray(data) && data[0]?.generated_text
-            ? data[0].generated_text
-            : '응답을 생성하지 못했습니다.';
+        const modify = data?.choices?.[0]?.message?.content || "";
 
-        return new Response(JSON.stringify({ reply }), { status: 200 });
-    } catch (error) {
-        console.error('HuggingFace API 에러:', error);
-        return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+        const result = modify
+            .replace(/<think>[\s\S]*?<\/think>/g, "")
+            .replace(/#region\d*/g, "")
+            .trim();
+
+        return new Response(JSON.stringify({ result }), { status: 200 });
+
+    } catch (err) {
+        console.error("서버 에러:", err);
+        return new Response(JSON.stringify({ error: "서버 에러" }), { status: 500 });
     }
 }
