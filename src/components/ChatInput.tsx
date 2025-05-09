@@ -17,7 +17,7 @@ export default function ChatInput({ onSend }: { onSend: (input: string) => void 
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex gap-2 w-full">
+        <form onSubmit={handleSubmit} className="flex px-3 gap-2 w-full">
             <p
                 ref={pRef}
                 contentEditable
@@ -28,7 +28,7 @@ export default function ChatInput({ onSend }: { onSend: (input: string) => void 
                         handleSubmit(e);
                     }
                 }}
-                data-placeholder="5월 제주도 3박 4일 일정 추천해줘"
+                data-placeholder="어디로 여행하고 싶으신가요?"
                 className={`relative w-full min-h-[40px] border rounded-lg px-3 py-2 outline-none whitespace-pre-wrap before:content-[attr(data-placeholder)] before:text-gray-400 before:absolute before:pointer-events-none ${
                     text ? "before:content-none" : ""
                 }`}
