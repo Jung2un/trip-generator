@@ -2,16 +2,32 @@
 
 import ChatInput from "./ChatInput";
 import MessageList from "./MessageList";
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import SidebarContext from "@/components/SidebarContext";
 
 type Message = {
     role: "user" | "assistant";
     content: string;
 };
 
+type ChatItem = {
+    id: string;
+    title: string
+};
+
 export default function ChatBox() {
     const [messages, setMessages] = useState<Message[]>([]);
+    const [chats, setChats] = useState<ChatItem[]>([]);
+    const [showSidebar, setShowSidebar] = useState(false);
     const bottomRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const saved = localStorage.getItem("chat-history");
+        if (saved) {
+            setChats(JSON.parse(saved));
+        }
+    }, []);
+
 
     const handleSend = async (userInput: string) => {
         const newMessages: Message[] = [...messages, { role: "user", content: userInput }];
@@ -29,6 +45,7 @@ export default function ChatBox() {
         const result = data.result || "응답을 생성하지 못했습니다.";
 
         setMessages((prev) => [...prev, { role: "assistant", content: result }]);
+        saveChat(userInput);
     };
 
     useEffect(() => {
@@ -36,6 +53,7 @@ export default function ChatBox() {
     }, [messages]);
 
     return (
+        <>
         <div className="flex flex-col h-full">
             {messages.length === 0 ? (
                 <div className="flex-grow flex flex-col justify-center items-center text-center p-4">
@@ -59,5 +77,6 @@ export default function ChatBox() {
             )}
             <ChatInput onSend={handleSend} />
         </div>
+        </>
     );
 }
