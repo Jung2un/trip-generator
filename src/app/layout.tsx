@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "TripGen",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
       <html lang="ko" className="dark">
       <body className={"bg-white text-black dark:bg-zinc-900 dark:text-white transition-colors duration-300 antialiased"}>
+      <SidebarProvider>
           <Header />
           <main className="pt-16">{children}</main>
+      </SidebarProvider>
       </body>
       </html>
   );
