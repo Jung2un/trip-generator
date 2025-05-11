@@ -7,7 +7,15 @@ import { useSidebar } from "@/context/SidebarContext";
 
 export default function Header() {
     const [isDark, setIsDark] = useState(true);
-    const { open } = useSidebar();
+    const { isOpen, open, close } = useSidebar();
+
+    const sidebarState = () => {
+        if (isOpen) {
+            close();
+        } else {
+            open();
+        }
+    };
 
     useEffect(() => {
         if (isDark) {
@@ -19,7 +27,7 @@ export default function Header() {
 
     return (
         <header className="fixed top-0 left-0 w-full h-14 bg-white dark:bg-zinc-900 px-6 flex items-center justify-between z-50 transition-colors duration-300">
-            <button onClick={open}>
+            <button onClick={sidebarState}>
                 <FontAwesomeIcon icon={faBars} className="text-2xl text-gray-800 dark:text-white" />
             </button>
 

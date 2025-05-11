@@ -29,14 +29,14 @@ export default function ChatInput({ onSend }: { onSend: (input: string) => void 
                     }
                 }}
                 data-placeholder="어디로 여행하고 싶으신가요?"
-                className={`relative w-full min-h-[40px] border rounded-lg px-3 py-2 outline-none whitespace-pre-wrap before:content-[attr(data-placeholder)] before:text-gray-400 before:absolute before:pointer-events-none ${
+                className={`relative w-full min-h-[40px] border rounded-lg px-3 py-2 outline-none whitespace-pre-wrap dark:border-zinc-600 before:content-[attr(data-placeholder)] before:text-gray-400 before:absolute before:pointer-events-none ${
                     text ? "before:content-none" : ""
                 }`}
             />
             <input type="hidden" name="message" value={text} />
             <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-400 dark:hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition-colors duration-300"
+                className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-400 dark:hover:bg-blue-500 dark:text-black font-bold px-4 py-2 rounded-3xl transition-colors duration-300"
             >
                 ↑
             </button>

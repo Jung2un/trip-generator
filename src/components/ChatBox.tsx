@@ -2,58 +2,18 @@
 
 import ChatInput from "./ChatInput";
 import MessageList from "./MessageList";
-import React, { useEffect, useState, useRef } from "react";
-import SidebarContext from "@/components/SidebarContext";
+import React, { RefObject } from "react";
+import type { Message } from "@/app/page";
 
-type Message = {
-    role: "user" | "assistant";
-    content: string;
+type Props = {
+    messages: Message[];
+    onSend: (userInput: string) => Promise<void>;
+    bottomRef: RefObject<HTMLDivElement | null>;
 };
 
-type ChatItem = {
-    id: string;
-    title: string
-};
-
-export default function ChatBox() {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [chats, setChats] = useState<ChatItem[]>([]);
-    const [showSidebar, setShowSidebar] = useState(false);
-    const bottomRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const saved = localStorage.getItem("chat-history");
-        if (saved) {
-            setChats(JSON.parse(saved));
-        }
-    }, []);
-
-
-    const handleSend = async (userInput: string) => {
-        const newMessages: Message[] = [...messages, { role: "user", content: userInput }];
-        setMessages(newMessages);
-
-        const res = await fetch('/api/generate-itinerary', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userInput }),
-        });
-
-        const data = await res.json();
-        const result = data.result || "응답을 생성하지 못했습니다.";
-
-        setMessages((prev) => [...prev, { role: "assistant", content: result }]);
-        saveChat(userInput);
-    };
-
-    useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+export default function ChatBox({ messages, onSend, bottomRef }: Props) {
 
     return (
-        <>
         <div className="flex flex-col h-full">
             {messages.length === 0 ? (
                 <div className="flex-grow flex flex-col justify-center items-center text-center p-4">
@@ -75,8 +35,7 @@ export default function ChatBox() {
                     <div ref={bottomRef} />
                 </div>
             )}
-            <ChatInput onSend={handleSend} />
+            <ChatInput onSend={onSend} />
         </div>
-        </>
     );
 }

@@ -1,7 +1,8 @@
+import React from "react";
 import "../styles/globals.css";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
-import React from "react";
+import {SidebarProvider} from "@/context/SidebarContext";
 
 export const metadata: Metadata = {
   title: "TripGen",

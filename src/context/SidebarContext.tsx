@@ -1,9 +1,6 @@
-import { createContext, useContext, useState } from "react";
+"use client"
 
-type ChatItem = {
-    id: string;
-    title: string;
-};
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 type SidebarContextType = {
     isOpen: boolean;
@@ -13,7 +10,7 @@ type SidebarContextType = {
 
 const SidebarContext = createContext<SidebarContextType | null>(null);
 
-export default function SidebarProvider = ({ children }: { children: React.ReactNode }) => {
+export const SidebarProvider = ({ children }: { children: ReactNode }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
