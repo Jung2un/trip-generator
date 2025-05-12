@@ -38,7 +38,7 @@ export default function Sidebar({ chats, onNewChat, onSelect, onDelete }: Props)
 
     return (
         <div
-            className={`fixed top-0 left-0 h-full w-56 bg-gray-50 dark:bg-zinc-800 z-[9999] transform transition-transform duration-300 ${
+            className={`fixed top-0 left-0 h-full w-56 bg-gray-50 dark:bg-zinc-800 z-[9999] transition-all duration-300 ${
                 isOpen ? "translate-x-0" : "-translate-x-full"
             }`}
         >
@@ -68,7 +68,7 @@ export default function Sidebar({ chats, onNewChat, onSelect, onDelete }: Props)
                             onClick={() => onSelect(chat.id)}
                             className="text-left text-sm text-black dark:text-white truncate"
                         >
-                            {chat.title.length > 13 ? `${chat.title.slice(0, 13)}` : chat.title}
+                            {chat.title.length > 12 ? `${chat.title.slice(0, 12)}` : chat.title}
                         </button>
                         <button
                             onClick={() => onDelete(chat.id)}
