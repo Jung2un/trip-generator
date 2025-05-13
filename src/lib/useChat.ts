@@ -17,47 +17,49 @@ export function useChat() {
     const [currentChatId, setCurrentChatId] = useState<string | null>(null); // 현재 활성 채팅 id
     const bottomRef = useRef<HTMLDivElement>(null);
 
-    // 메시지 입력 시
-    const handleSend = async (userInput: string) => {
-        const userMessage: Message = { role: "user" as const, content: userInput };
-        const newMessages = [...messages, userMessage];
-        setMessages(newMessages);
+    // 전체 채팅 불러오기
+    const fetchChats = async () => {
+        try {
+            const res = await fetch("/api/chat");
+            const data = await res.json();
+            setChats(data);
+        } catch (err) {
+            console.error("채팅 목록 로딩 실패", err);
+        }
+    };
 
-        const res = await fetch("/api/chat", {
+    // 메시지 보내기 handler
+    const handleSend = async (userInput: string) => {
+        if (!currentChatId) {
+            // 새 채팅방 생성
+            const res = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title: userInput }),
+            });
+            const newChat = await res.json();
+            if (!newChat.id) throw new Error("채팅방 생성 실패");
+            setCurrentChatId(newChat.id);
+
+            // 새 채팅방 생성 후 메시지 전송
+            await sendMessage(newChat.id, userInput);
+            await fetchChats();
+            await loadChat(newChat.id)
+        } else {
+            // 기존 채팅방에 메시지 전송
+            await sendMessage(currentChatId, userInput);
+            await fetchChats();
+            await loadChat(currentChatId); // 현재 채팅 갱신
+        }
+    };
+
+    // 메시지 보내기 API call
+    const sendMessage = async (id: string, userInput: string) => {
+        await fetch(`/api/chat/${id}/message`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userInput }),
         });
-
-        const data = await res.json();
-        const result = data.result || "응답을 생성하지 못했습니다.";
-        const updatedMessages = [...newMessages, { role: "assistant" as const, content: result }];
-        setMessages(updatedMessages);
-
-        // 채팅방 없을 때 채팅방 생성
-        if (!currentChatId) {
-            const id = Date.now().toString();
-            const newChat: ChatData = {
-                id,
-                title: userInput,
-                messages: updatedMessages,
-            };
-            const newChats = [newChat, ...chats];
-            setChats(newChats);
-            setCurrentChatId(id);
-            localStorage.setItem("chat-history", JSON.stringify(newChats));
-        } else {
-            // 현재 대화중인 채팅 목록 상단으로 이동
-            const chatToUpdate = chats.find(chat => chat.id === currentChatId);
-            if (!chatToUpdate) return;
-
-            const updatedChats = [
-                { ...chatToUpdate, messages: updatedMessages },
-                ...chats.filter(chat => chat.id !== currentChatId)
-            ];
-            setChats(updatedChats);
-            localStorage.setItem("chat-history", JSON.stringify(updatedChats));
-        }
     };
 
     // 새 채팅 버튼 클릭 시
@@ -66,20 +68,36 @@ export function useChat() {
         setCurrentChatId(null);
     };
 
-    // 채팅 불러오기
-    const loadChat = (id: string) => {
-        const found = chats.find((c) => c.id === id);
-        if (found) {
-            setMessages(found.messages);
-            setCurrentChatId(found.id);
+    // 채팅방 불러오기
+    const loadChat = async (id: string | undefined) => {
+        if (!id) {
+            console.warn("id undefined");
+            setMessages([]);
+            setCurrentChatId(null);
+            return;
+        }
+        try {
+            const res = await fetch(`/api/chat/${id}`);
+            if (!res.ok) throw new Error("채팅방 불러오기 실패");
+            const chat = await res.json();
+            if (chat && chat.messages) {
+                setMessages(chat.messages);
+                setCurrentChatId(chat.id);
+            } else {
+                console.warn("loadChat 호출 성공");
+                setMessages([]);
+                setCurrentChatId(chat.id);
+            }
+        } catch (error) {
+            console.error("loadChat 에러:", error);
+            setMessages([]);
         }
     };
 
-    // 채팅 삭제
-    const deleteChat = (id: string) => {
-        const updated = chats.filter((c) => c.id !== id);
-        setChats(updated);
-        localStorage.setItem("chat-history", JSON.stringify(updated));
+    // 채팅방 삭제
+    const deleteChat = async (id: string) => {
+        await fetch(`/api/chat/${id}`, { method: "DELETE" });
+        await fetchChats();
         if (currentChatId === id) {
             setCurrentChatId(null);
             setMessages([]);
@@ -88,10 +106,7 @@ export function useChat() {
 
     // 페이지 로드 시 채팅 목록 불러오기
     useEffect(() => {
-        const saved = localStorage.getItem("chat-history");
-        if (saved) {
-            setChats(JSON.parse(saved));
-        }
+        fetchChats();
     }, []);
 
     // 채팅 입력 시 현재 채팅으로 스크롤

@@ -58,7 +58,6 @@ export default function Sidebar({ chats, onNewChat, onSelect, onDelete }: Props)
                 {chats.length === 0 ? (
                     <p className="text-sm text-center py-5 text-zinc-400 dark:text-zinc-500">저장된 채팅이 없습니다.</p>
                 ) : (
-
                     chats.map((chat) => (
                     <div
                         key={chat.id}
