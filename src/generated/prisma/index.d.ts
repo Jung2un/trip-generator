@@ -1004,18 +1004,21 @@ export namespace Prisma {
     id: string | null
     title: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ChatMaxAggregateOutputType = {
     id: string | null
     title: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ChatCountAggregateOutputType = {
     id: number
     title: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -1024,18 +1027,21 @@ export namespace Prisma {
     id?: true
     title?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ChatMaxAggregateInputType = {
     id?: true
     title?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ChatCountAggregateInputType = {
     id?: true
     title?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -1115,6 +1121,7 @@ export namespace Prisma {
     id: string
     title: string
     createdAt: Date
+    updatedAt: Date
     _count: ChatCountAggregateOutputType | null
     _min: ChatMinAggregateOutputType | null
     _max: ChatMaxAggregateOutputType | null
@@ -1138,6 +1145,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     messages?: boolean | Chat$messagesArgs<ExtArgs>
     _count?: boolean | ChatCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chat"]>
@@ -1146,21 +1154,24 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["chat"]>
 
   export type ChatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["chat"]>
 
   export type ChatSelectScalar = {
     id?: boolean
     title?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "createdAt", ExtArgs["result"]["chat"]>
+  export type ChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "createdAt" | "updatedAt", ExtArgs["result"]["chat"]>
   export type ChatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | Chat$messagesArgs<ExtArgs>
     _count?: boolean | ChatCountOutputTypeDefaultArgs<ExtArgs>
@@ -1177,6 +1188,7 @@ export namespace Prisma {
       id: string
       title: string
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["chat"]>
     composites: {}
   }
@@ -1604,6 +1616,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Chat", 'String'>
     readonly title: FieldRef<"Chat", 'String'>
     readonly createdAt: FieldRef<"Chat", 'DateTime'>
+    readonly updatedAt: FieldRef<"Chat", 'DateTime'>
   }
     
 
@@ -3096,7 +3109,8 @@ export namespace Prisma {
   export const ChatScalarFieldEnum: {
     id: 'id',
     title: 'title',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ChatScalarFieldEnum = (typeof ChatScalarFieldEnum)[keyof typeof ChatScalarFieldEnum]
@@ -3185,6 +3199,7 @@ export namespace Prisma {
     id?: StringFilter<"Chat"> | string
     title?: StringFilter<"Chat"> | string
     createdAt?: DateTimeFilter<"Chat"> | Date | string
+    updatedAt?: DateTimeFilter<"Chat"> | Date | string
     messages?: MessageListRelationFilter
   }
 
@@ -3192,6 +3207,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     messages?: MessageOrderByRelationAggregateInput
   }
 
@@ -3202,6 +3218,7 @@ export namespace Prisma {
     NOT?: ChatWhereInput | ChatWhereInput[]
     title?: StringFilter<"Chat"> | string
     createdAt?: DateTimeFilter<"Chat"> | Date | string
+    updatedAt?: DateTimeFilter<"Chat"> | Date | string
     messages?: MessageListRelationFilter
   }, "id">
 
@@ -3209,6 +3226,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: ChatCountOrderByAggregateInput
     _max?: ChatMaxOrderByAggregateInput
     _min?: ChatMinOrderByAggregateInput
@@ -3221,6 +3239,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Chat"> | string
     title?: StringWithAggregatesFilter<"Chat"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Chat"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Chat"> | Date | string
   }
 
   export type MessageWhereInput = {
@@ -3277,6 +3296,7 @@ export namespace Prisma {
     id?: string
     title: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     messages?: MessageCreateNestedManyWithoutChatInput
   }
 
@@ -3284,6 +3304,7 @@ export namespace Prisma {
     id?: string
     title: string
     createdAt?: Date | string
+    updatedAt?: Date | string
     messages?: MessageUncheckedCreateNestedManyWithoutChatInput
   }
 
@@ -3291,6 +3312,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutChatNestedInput
   }
 
@@ -3298,6 +3320,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUncheckedUpdateManyWithoutChatNestedInput
   }
 
@@ -3305,18 +3328,21 @@ export namespace Prisma {
     id?: string
     title: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChatUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChatUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateInput = {
@@ -3407,18 +3433,21 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ChatMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ChatMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -3662,12 +3691,14 @@ export namespace Prisma {
     id?: string
     title: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChatUncheckedCreateWithoutMessagesInput = {
     id?: string
     title: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChatCreateOrConnectWithoutMessagesInput = {
@@ -3690,12 +3721,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChatUncheckedUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageCreateManyChatInput = {

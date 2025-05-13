@@ -80,14 +80,8 @@ export function useChat() {
             const res = await fetch(`/api/chat/${id}`);
             if (!res.ok) throw new Error("채팅방 불러오기 실패");
             const chat = await res.json();
-            if (chat && chat.messages) {
-                setMessages(chat.messages);
-                setCurrentChatId(chat.id);
-            } else {
-                console.warn("loadChat 호출 성공");
-                setMessages([]);
-                setCurrentChatId(chat.id);
-            }
+            setCurrentChatId(chat.id);
+            setMessages(Array.isArray(chat.messages) ? chat.messages : []);
         } catch (error) {
             console.error("loadChat 에러:", error);
             setMessages([]);
