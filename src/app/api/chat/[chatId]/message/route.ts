@@ -69,6 +69,11 @@ export async function POST(
             ],
         });
 
+        await prisma.chat.update({
+            where: { id: chatId },
+            data: { updatedAt: new Date() },
+        });
+
         return Response.json({ status: "success" });
     } catch (err) {
         console.error(err);
