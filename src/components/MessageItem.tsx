@@ -19,16 +19,16 @@ export default function MessageItem({ role, content }: { role: string; content: 
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
-                            h3: ({ node, ...props }) => (
+                            h3: (props) => (
                                 <h3 className="text-lg font-bold mb-2 text-blue-800 dark:text-blue-300 tracking-tight" {...props} />
                             ),
-                            p: ({ node, ...props }) => (
+                            p: (props) => (
                                 <p className="leading-relaxed text-sm text-gray-800 dark:text-gray-200" {...props} />
                             ),
-                            ul: ({ node, ...props }) => (
+                            ul: (props) => (
                                 <ul className="list-disc list-inside" {...props} />
                             ),
-                            li: ({ node, ...props }) => (
+                            li: (props) => (
                                 <li className="text-sm leading-snug" {...props} />
                             )
                         }}
