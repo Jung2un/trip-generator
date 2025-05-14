@@ -42,3 +42,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 모든 텍스트 파일은 LF로 고정
+* text=auto eol=lf
+
+# Windows에서도 LF 유지 (필수)
+*.js text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.jsx text eol=lf
+*.json text eol=lf
+*.prisma text eol=lf
+*.graphql text eol=lf
+*.md text eol=lf
+
