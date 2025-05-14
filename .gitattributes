@@ -1,0 +1,18 @@
+# Prisma generated 클라이언트 무시
+/src/generated/prisma/* linguist-generated=true
+
+# config 파일 무시 (통계 영향 X)
+eslint.config.mjs linguist-generated=true
+tailwind.config.js linguist-generated=true
+postcss.config.js linguist-generated=true
+
+# Next.js static types
+next-env.d.ts linguist-generated=true
+
+# --- 라인 엔딩 통일 (윈도우/리눅스 호환)
+/* text=auto eol=lf
+
+# --- lock file marge 충돌 방지
+package-lock.json merge=union
+yarn.lock merge=union
+pnpm-lock.yaml merge=union
