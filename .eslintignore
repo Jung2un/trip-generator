@@ -1,0 +1,2 @@
+# Prisma 자동 생성 코드 제외
+src/generated/prisma/*
