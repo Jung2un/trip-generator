@@ -3,17 +3,17 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-import { useSidebar } from "@/context/SidebarContext";
+import { useChatStore } from "@/store/store";
 
 export default function Header() {
     const [isDark, setIsDark] = useState(true);
-    const { isOpen, open, close } = useSidebar();
+    const { sidebarOpen, openSidebar, closeSidebar } = useChatStore();
 
     const sidebarState = () => {
-        if (isOpen) {
-            close();
+        if (sidebarOpen) {
+            closeSidebar();
         } else {
-            open();
+            openSidebar();
         }
     };
 

@@ -1,36 +1,15 @@
-"use client";
+import { Suspense } from 'react';
+import { getChats } from '@/lib/actions';
+import { ClientPage } from './client-page';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
-import ChatBox from "@/components/ChatBox";
-import Sidebar from "@/components/Sidebar";
-import { useSidebar } from "@/context/SidebarContext";
-import { useChat } from "@/lib/useChat";
+export default async function Home() {
+  // 서버에서 초기 데이터 fetch
+  const initialChats = await getChats();
 
-export default function Home() {
-    const { isOpen } = useSidebar();
-    const {
-        chats,
-        messages,
-        bottomRef,
-        loadChat,
-        startChat,
-        deleteChat,
-        handleSend
-    } = useChat();
-
-    return (
-        <>
-            <Sidebar chats={chats} onSelect={loadChat} onDelete={deleteChat} onNewChat={startChat} />
-            <div
-                className={`transition-all duration-300 ${
-                    isOpen ? "ml-64" : "ml-0"
-                } flex justify-center items-center min-h-[calc(100vh-4rem)]`}
-            >
-                <div className="w-full max-w-3xl flex flex-col h-[calc(100vh-6rem)]">
-                    <div className="flex-grow flex flex-col max-h-[calc(100%)]">
-                        <ChatBox messages={messages} onSend={handleSend} bottomRef={bottomRef} />
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <ClientPage initialChats={initialChats} />
+    </Suspense>
+  );
 }
