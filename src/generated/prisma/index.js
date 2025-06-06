@@ -133,7 +133,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\tripgen\\src\\generated\\prisma",
+      "value": "C:\\trip-generator\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -146,10 +146,8 @@ const config = {
         "native": true
       }
     ],
-    "previewFeatures": [
-      "clientExtensions"
-    ],
-    "sourceFilePath": "C:\\tripgen\\prisma\\schema.prisma",
+    "previewFeatures": [],
+    "sourceFilePath": "C:\\trip-generator\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -172,8 +170,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider        = \"prisma-client-js\"\n  output          = \"../src/generated/prisma\"\n  previewFeatures = [\"clientExtensions\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Chat {\n  id        String    @id @default(cuid())\n  title     String\n  messages  Message[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n}\n\nmodel Message {\n  id      String @id @default(cuid())\n  role    String\n  content String\n  chatId  String\n  chat    Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade)\n}\n",
-  "inlineSchemaHash": "d75c135e1805e29dd1d6814e8b2ffbdbb41e2b58c58138161ca20ccc32ff9aee",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Chat {\n  id        String    @id @default(cuid())\n  title     String\n  messages  Message[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n}\n\nmodel Message {\n  id      String @id @default(cuid())\n  role    String\n  content String\n  chatId  String\n  chat    Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade)\n}\n",
+  "inlineSchemaHash": "06688991d26436dbb1d78fd809432cf69b0ab8d1da4fa503fee389aed5952b2c",
   "copyEngine": true
 }
 
