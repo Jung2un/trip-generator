@@ -24,12 +24,17 @@ export default function ChatInput() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex px-3 gap-2 w-full">
+    <form onSubmit={handleSubmit} className="flex px-3 gap-2 w-full items-end">
       <p
         ref={pRef}
         contentEditable
         suppressContentEditableWarning
-        onInput={(e) => setText(e.currentTarget.textContent ?? '')}
+        onInput={(e) => setText(e.currentTarget.innerText ?? '')}
+        onPaste={(e) => {
+          e.preventDefault();
+          const text = e.clipboardData.getData('text/plain');
+          document.execCommand('insertText', false, text);
+        }}
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             handleSubmit(e);
@@ -44,7 +49,7 @@ export default function ChatInput() {
       <button
         type="submit"
         disabled={!text.trim() || isSending}
-        className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-400 dark:hover:bg-blue-500 dark:text-black font-bold px-4 py-2 rounded-3xl transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="h-10 bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-400 dark:hover:bg-blue-500 dark:text-black font-bold px-4 py-2 rounded-3xl transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSending ? <LoadingSpinner size="sm" /> : '↑'}
       </button>
