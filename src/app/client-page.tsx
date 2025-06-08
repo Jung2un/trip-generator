@@ -11,12 +11,12 @@ interface ClientPageProps {
 }
 
 export function ClientPage({ initialChats }: ClientPageProps) {
-  const { sidebarOpen, setChats } = useChatStore();
+  const { sidebarOpen, setChats, chats } = useChatStore();
 
   // 서버에서 받은 초기 데이터로 초기화
   useEffect(() => {
     setChats(initialChats);
-  }, [initialChats, setChats]);
+  }, [initialChats, setChats, chats.length]);
 
   return (
     <>
