@@ -24,7 +24,7 @@ export default function ChatInput() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex px-3 gap-2 w-full items-end">
+    <form onSubmit={handleSubmit} className="flex px-3 gap-2 w-full items-end max-w-3xl mx-auto">
       <p
         ref={pRef}
         contentEditable

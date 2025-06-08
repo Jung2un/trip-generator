@@ -12,6 +12,12 @@ export type ChatData = {
   messages: Message[];
 };
 
+export type DeleteModalState = {
+  isOpen: boolean;
+  chatId: string | null;
+  chatTitle: string;
+};
+
 interface ChatState {
   // 채팅 관련 상태
   chats: ChatData[];
@@ -25,6 +31,9 @@ interface ChatState {
   // 사이드바 상태
   sidebarOpen: boolean;
 
+  // 모달 상태
+  deleteModal: DeleteModalState;
+
   // Actions
   setChats: (chats: ChatData[]) => void;
   setMessages: (messages: Message[]) => void;
@@ -34,6 +43,11 @@ interface ChatState {
   setSidebarOpen: (open: boolean) => void;
   openSidebar: () => void;
   closeSidebar: () => void;
+
+  // 모달 Actions
+  openDeleteModal: (chatId: string, chatTitle: string) => void;
+  closeDeleteModal: () => void;
+
   reset: () => void;
 }
 
@@ -47,6 +61,13 @@ export const useChatStore = create<ChatState>()(
     isSending: false,
     sidebarOpen: false,
 
+    // 모달 초기 상태
+    deleteModal: {
+      isOpen: false,
+      chatId: null,
+      chatTitle: '',
+    },
+
     // Actions
     setChats: (chats) => set({ chats }),
     setMessages: (messages) => set({ messages }),
@@ -56,6 +77,21 @@ export const useChatStore = create<ChatState>()(
     setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
     openSidebar: () => set({ sidebarOpen: true }),
     closeSidebar: () => set({ sidebarOpen: false }),
+    // 모달 Actions
+    openDeleteModal: (chatId: string, chatTitle: string) => set({
+      deleteModal: {
+        isOpen: true,
+        chatId,
+        chatTitle
+      }
+    }),
+    closeDeleteModal: () => set({
+      deleteModal: {
+        isOpen: false,
+        chatId: null,
+        chatTitle: ''
+      }
+    }),
     reset: () => set({
       chats: [],
       messages: [],

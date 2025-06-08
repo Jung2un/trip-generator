@@ -1,17 +1,20 @@
 "use client";
 
+import React from "react";
 import dynamic from "next/dynamic";
-import { Toaster } from "react-hot-toast";
+import { HeroUIProvider } from "@heroui/system";
+import DeleteChatModal from "@/components/DeleteChatModal";
 
 const Header = dynamic(() => import("@/components/Header"), { ssr: false });
 const Sidebar = dynamic(() => import("@/components/Sidebar"), { ssr: false});
 
-export default function LayoutClient() {
+export default function LayoutClient({ children }: { children: React.ReactNode; }) {
   return (
-    <>
+    <HeroUIProvider>
       <Header />
       <Sidebar />
-      <Toaster position="top-center" />
-    </>
+      {children}
+      <DeleteChatModal />
+    </HeroUIProvider>
   );
 }

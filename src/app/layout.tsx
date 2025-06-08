@@ -16,10 +16,11 @@ export default function RootLayout({
   return (
       <html lang="ko" className="dark">
         <body className={"bg-white text-black dark:bg-zinc-900 dark:text-white transition-colors duration-300 antialiased"}>
-          <LayoutClient />
-          <main className="pt-16">
-            {children}
-          </main>
+          <LayoutClient >
+            <main className="pt-16">
+              {children}
+            </main>
+          </LayoutClient>
         </body>
       </html>
   );
