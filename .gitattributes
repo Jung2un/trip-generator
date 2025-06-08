@@ -3,7 +3,7 @@
 
 # config 파일 무시
 eslint.config.mjs linguist-generated=true
-tailwind.config.js linguist-generated=true
+tailwind.config.ts linguist-generated=true
 postcss.config.cjs linguist-generated=true
 next.config.ts linguist-generated=true
 tsconfig.json linguist-generated=true

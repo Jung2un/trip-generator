@@ -12,10 +12,14 @@ export default function Sidebar() {
         chats,
         sidebarOpen,
         isLoading,
-        closeSidebar
+        closeSidebar,
+        openDeleteModal
     } = useChatStore();
 
-    const { handleNewChat, handleSelectChat, handleDeleteChat } = useChatActions();
+    const { handleNewChat, handleSelectChat } = useChatActions();
+    const handleDeleteClick = (chatId: string, chatTitle: string) => {
+      openDeleteModal(chatId, chatTitle);
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -49,7 +53,6 @@ export default function Sidebar() {
                     disabled={isLoading}
                     className="w-full flex items-center gap-2 justify-center text-sm py-2 rounded bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-400 dark:text-black dark:hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                      {/*{isLoading ? <LoadingSpinner size="sm" /> : '새 채팅'}*/}
                       새 채팅
                   </button>
               </div>
@@ -75,7 +78,7 @@ export default function Sidebar() {
                           {chat.title.length > 12 ? `${chat.title.slice(0, 12)}` : chat.title}
                       </button>
                       <button
-                        onClick={() => handleDeleteChat(chat.id)}
+                        onClick={() => handleDeleteClick(chat.id, chat.title)}
                         className="text-xs text-red-400 hover:text-red-500 ml-2"
                       >
                           삭제

@@ -33,10 +33,10 @@ export default function ChatBox() {
           </div>
         </div>
       ) : (
-        <div className="flex-grow overflow-y-auto mb-4 scrollbar-hide px-2">
+        <div className="flex flex-col h-full flex-grow overflow-y-auto mb-4 px-2">
           <MessageList messages={messages} />
           {isSending && (
-            <div className="flex justify-start px-2 mb-4">
+            <div className="flex justify-start px-2 py-2 my-4 max-w-3xl w-full mx-auto">
               <div className="bg-gray-100 dark:bg-zinc-700 rounded-lg p-3 max-w-xs">
                 <span className="mr-2 text-sm text-gray-600 dark:text-gray-300 inline-flex items-center gap-1">
                   답변 생성 중
