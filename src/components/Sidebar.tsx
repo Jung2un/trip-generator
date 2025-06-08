@@ -17,6 +17,7 @@ export default function Sidebar() {
     } = useChatStore();
 
     const { handleNewChat, handleSelectChat } = useChatActions();
+
     const handleDeleteClick = (chatId: string, chatTitle: string) => {
       openDeleteModal(chatId, chatTitle);
     };
