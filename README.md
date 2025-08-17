@@ -19,6 +19,7 @@
 
 ## 😎 새로운 기능
 
+- **Gemini API** 기반 모델로 마이그레이션 (Groq API → Gemini API)
 - SSR 적용으로 초기 렌더링 속도 개선
 - 상태관리 로직 `Context/useState` → `zustand`로 통합
 - 데이터 요청/응답 시 Loading Spinner 추가로 UX 개선
@@ -33,7 +34,7 @@
 | Language    | **TypeScript**                     |
 | 상태 관리    | **Zustand**                        |
 | Styling     | **Tailwind CSS**                   |
-| API 통신    | **Groq API** (Qwen 모델)             |
+| API 통신    | **Gemini API**                      |
 | Database    | **Prisma**, **Neon**               |
 | Infra       | **Vercel**                         |
 
