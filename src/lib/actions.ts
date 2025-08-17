@@ -139,41 +139,58 @@ export async function sendMessage(chatId: string, userInput: string): Promise<bo
   **다시 한번 강조: 한국어만 사용해**
   `;
   try {
-    // AI 호출 + 프롬프트 설정
-    const aiResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const geminiApiKey = process.env.GEMINI_API_KEY;;
+    
+    if (!geminiApiKey) {
+      throw new Error('GEMINI_API_KEY가 설정되지 않았습니다.');
+    }
+    
+    // Gemini API 호출을 위한 프롬프트 통합
+    const fullPrompt = `너는 한국 여행 전문가야. 
+
+**절대 규칙:**
+- 모든 응답은 100% 한국어로만 작성
+- HTML 태그 사용 절대 금지 
+- 목록은 오직 "-" 기호만 사용
+- 영어, 중국어, 한자 사용 금지
+
+응답 형식은 마크다운 헤더(### 이모지 제목)와 대시 목록(-)만 사용해.
+
+${prompt}`;
+
+    // Gemini API 호출
+    const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
         "Content-Type": "application/json",
+        "X-goog-api-key": geminiApiKey,
       },
       body: JSON.stringify({
-        model: "qwen-qwq-32b",
-        messages: [
+        contents: [
           {
-            role: "system",
-            content: `너는 한국 여행 전문가야. 
-            
-            **절대 규칙:**
-            - 모든 응답은 100% 한국어로만 작성
-            - HTML 태그 사용 절대 금지 
-            - 목록은 오직 "-" 기호만 사용
-            - 영어, 중국어, 한자 사용 금지
-            
-            응답 형식은 마크다운 헤더(### 이모지 제목)와 대시 목록(-)만 사용해.`
-          },
-          {
-            role: "user",
-            content: prompt
-          },
+            parts: [
+              {
+                text: fullPrompt
+              }
+            ]
+          }
         ],
-        temperature: 0.3,
-        max_tokens: 2000,
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 2000,
+        }
       }),
     });
 
-    const data = await aiResponse.json();
+    if (!aiResponse.ok) {
+      const errorText = await aiResponse.text();
+      console.error('❌ Gemini API 호출 실패:', errorText);
+      throw new Error(`Gemini API 호출 실패: ${aiResponse.status} - ${errorText}`);
+    }
 
-    const assistantMessage = data?.choices?.[0]?.message?.content
+    const data = await aiResponse.json();
+    // Gemini API 응답 구조에 맞게 파싱
+    const assistantMessage = data?.candidates?.[0]?.content?.parts?.[0]?.text
       ?.replace(/<think>[\s\S]*?<\/think>/g, "")
       .replace(/#region\d*/g, "")
       .replace(/<li[^>]*>(.*?)<\/li>/g, "- $1")
@@ -196,7 +213,27 @@ export async function sendMessage(chatId: string, userInput: string): Promise<bo
     revalidatePath('/');
     return true;
   } catch (error) {
-    console.error('메세지(DB) 저장 에러:', error);
+    console.error('❌ 메시지 처리 중 에러 발생:', error);
+    
+    // 에러가 발생해도 사용자 메시지와 에러 메시지를 저장
+    try {
+      await prisma.message.createMany({
+        data: [
+          { role: "user", content: userInput, chatId: chatId },
+          { role: "assistant", content: "죄송합니다 현재 AI 서비스에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요. 🙏", chatId: chatId },
+        ],
+      });
+
+      await prisma.chat.update({
+        where: { id: chatId },
+        data: { updatedAt: new Date() },
+      });
+
+      revalidatePath('/');
+    } catch (dbError) {
+      console.error('❌ DB 저장 에러:', dbError);
+    }
+    
     return false;
   }
 }

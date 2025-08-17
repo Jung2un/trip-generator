@@ -132,7 +132,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\trip-generator\\src\\generated\\prisma",
+      "value": "C:\\Users\\82105\\Documents\\dev\\trip-generator\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -146,7 +146,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\trip-generator\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\82105\\Documents\\dev\\trip-generator\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

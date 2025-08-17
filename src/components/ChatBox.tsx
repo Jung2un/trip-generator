@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import ChatInput from './ChatInput';
 import MessageList from './MessageList';
 import { useChatStore } from '@/store/store';
-import LoadingSpinner from './LoadingSpinner';
 
 export default function ChatBox() {
   const { messages, isSending } = useChatStore();
@@ -37,11 +36,20 @@ export default function ChatBox() {
           <MessageList messages={messages} />
           {isSending && (
             <div className="flex justify-start px-2 py-2 my-4 max-w-3xl w-full mx-auto">
-              <div className="bg-gray-100 dark:bg-zinc-700 rounded-lg p-3 max-w-xs">
-                <span className="mr-2 text-sm text-gray-600 dark:text-gray-300 inline-flex items-center gap-1">
-                  답변 생성 중
-                  <LoadingSpinner size="sm" />
-                </span>
+              <div className="bg-gray-100 dark:bg-zinc-700 rounded-lg p-4 max-w-md">
+                <div className="flex items-center gap-3">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  </div>
+                  <span className="text-sm text-gray-600 dark:text-gray-300">
+                    여행 계획을 생성하고 있어요...
+                  </span>
+                </div>
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  💡 잠시만 기다려주세요! 곧 멋진 여행 코스를 추천해드릴게요
+                </div>
               </div>
             </div>
           )}
