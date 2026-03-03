@@ -159,7 +159,7 @@ export async function sendMessage(chatId: string, userInput: string): Promise<bo
 ${prompt}`;
 
     // Gemini API 호출
-    const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", {
+    const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
